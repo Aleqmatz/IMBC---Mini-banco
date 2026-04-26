@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Mini Banco </title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Librería de gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <h1>
+        <img src="https://images.vexels.com/media/users/3/135318/isolated/lists/45939241515a561751ed6222f2012003-icono-cuadrado-de-banco.png"
+            alt="icono banco" class="icono">
+        IMBC - Mini Banco
+    </h1>
+
+    <h2>Saldo: $<span id="saldo">0</span></h2>
+
+    <div class="card">
+        <input type="number" id="monto" placeholder="Cantidad">
+
+        <select id="categoria">
+            <option value="">Selecciona categoría</option>
+            <option>Comida</option>
+            <option>Transporte/Gasolina</option>
+            <option>Materiales escolares</option>
+            <option>Ropa</option>
+            <option>Higiene personal</option>
+            <option>Medicamentos/Suplementos</option>
+            <option>Salidas con amigos</option>
+        </select>
+
+        <br><br>
+
+        <button onclick="agregarIngreso()">➕ Ingreso</button>
+        <button onclick="agregarGasto()">➖ Gasto</button>
+    </div>
+
+    <div class="card">
+        <h3> Historial</h3>
+        <ul id="historial"></ul>
+    </div>
+
+    <div class="card">
+        <h3> Gastos por categoría</h3>
+        <canvas id="grafica"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
