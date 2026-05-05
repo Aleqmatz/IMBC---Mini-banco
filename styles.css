@@ -1,3 +1,11 @@
+.login {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
 body {
     font-family: Arial;
     background-color: #eef2f7;
