@@ -1,6 +1,6 @@
-// DATOS
 let saldo = 0;
 let historial = [];
+let usuarioActual = "";
 
 let resumenGastos = {
     "Comida": 0,
@@ -15,25 +15,64 @@ let resumenGastos = {
 let grafica;
 
 // =========================
-//  GUARDAR DATOS
+//  LOGIN
 // =========================
-function guardarDatos() {
-    localStorage.setItem("saldo", saldo);
-    localStorage.setItem("historial", JSON.stringify(historial));
-    localStorage.setItem("resumenGastos", JSON.stringify(resumenGastos));
+function login() {
+    let usuario = document.getElementById("usuario").value;
+
+    if (usuario === "") {
+        alert("Ingresa un usuario");
+        return;
+    }
+
+    usuarioActual = usuario;
+
+    document.querySelector(".login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    cargarDatos();
+    crearGrafica();
+    actualizarPantalla();
 }
 
 // =========================
-//  CARGAR DATOS
+//  GUARDAR
+// =========================
+function guardarDatos() {
+    let datos = {
+        saldo,
+        historial,
+        resumenGastos
+    };
+
+    localStorage.setItem("miniBanco_" + usuarioActual, JSON.stringify(datos));
+}
+
+// =========================
+//  CARGAR
 // =========================
 function cargarDatos() {
-    let saldoGuardado = localStorage.getItem("saldo");
-    let historialGuardado = localStorage.getItem("historial");
-    let resumenGuardado = localStorage.getItem("resumenGastos");
+    let datos = localStorage.getItem("miniBanco_" + usuarioActual);
 
-    if (saldoGuardado !== null) saldo = Number(saldoGuardado);
-    if (historialGuardado !== null) historial = JSON.parse(historialGuardado);
-    if (resumenGuardado !== null) resumenGastos = JSON.parse(resumenGuardado);
+    if (datos) {
+        let parsed = JSON.parse(datos);
+        saldo = parsed.saldo;
+        historial = parsed.historial;
+        resumenGastos = parsed.resumenGastos;
+    } else {
+        saldo = 0;
+        historial = [];
+
+        resumenGastos = {
+            "Comida": 0,
+            "Transporte/Gasolina": 0,
+            "Materiales escolares": 0,
+            "Ropa": 0,
+            "Higiene personal": 0,
+            "Medicamentos/Suplementos": 0,
+            "Salidas con amigos": 0
+        };
+    }
 }
 
 // =========================
@@ -59,7 +98,7 @@ function actualizarGrafica() {
 }
 
 // =========================
-//  ACTUALIZAR PANTALLA
+//  ACTUALIZAR
 // =========================
 function actualizarPantalla() {
     document.getElementById("saldo").innerText = saldo;
@@ -73,11 +112,11 @@ function actualizarPantalla() {
     });
 
     actualizarGrafica();
-    guardarDatos(); //  guarda automáticamente
+    guardarDatos();
 }
 
 // =========================
-// FUNCIONES PRINCIPALES
+// FUNCIONES
 // =========================
 function agregarIngreso() {
     let monto = Number(document.getElementById("monto").value);
@@ -108,10 +147,3 @@ function agregarGasto() {
 
     actualizarPantalla();
 }
-
-// =========================
-//  -- INICIO --
-// =========================
-cargarDatos();
-crearGrafica();
-actualizarPantalla();
